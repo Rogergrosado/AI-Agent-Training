@@ -46,8 +46,6 @@ AI-Agent-Training/
 
 ## Training Progress
 
-|## Training Progress
-
 | Exercise | Description | Status |
 |---|---|---|
 | 001 | Running My First Local LLM | Completed |
