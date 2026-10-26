@@ -34,9 +34,11 @@ Additional technologies will be documented as they are introduced.
 ```text
 AI-Agent-Training/
 ├── exercises/
-│   └── first_local_llm.py
+│   ├── first_local_llm.py
+│   └── logistics_dummy_agent.py
 ├── notes/
-│   └── exercise_001.md
+│   ├── exercise_001.md
+│   └── exercise_002.md
 ├── projects/
 ├── README.md
 └── .gitignore
@@ -44,10 +46,12 @@ AI-Agent-Training/
 
 ## Training Progress
 
+|## Training Progress
+
 | Exercise | Description | Status |
 |---|---|---|
 | 001 | Running My First Local LLM | Completed |
-| 002 | To Be Determined | Upcoming |
+| 002 | Logistics Dummy Agent - Thought-Action-Observation Cycle | Completed |
 
 ## Exercise 001 — Running My First Local LLM
 
@@ -62,6 +66,37 @@ The application explored how AI technologies could support logistics operations,
 **Source code:** [first_local_llm.py](exercises/first_local_llm.py)
 
 **Technical documentation:** [Exercise 001](notes/exercise_001.md)
+
+## Exercise 002 - Logistics Dummy Agent
+
+**Date:** October 26, 2026
+
+In this exercise, I developed a basic logistics AI agent inspired by the Hugging Face AI Agents Course.
+
+The application demonstrates the Thought-Action-Observation cycle by combining a locally running language model with a Python shipment tracking tool.
+
+Using Ollama and Qwen2 1.5B, the agent identifies shipment IDs from user questions, retrieves shipment information, and generates natural-language explanations.
+
+The exercise includes four shipment scenarios:
+
+- SHP-001: In Transit
+- SHP-002: Delivered
+- SHP-004: Delayed
+- SHP-999: Shipment not found
+
+A reliability improvement was implemented to handle missing shipment records with a deterministic response instead of relying on the language model.
+
+**Key Concepts:**
+- AI agent architecture
+- Thought-Action-Observation cycle
+- Tool integration
+- Local LLM inference
+- Response reliability
+- Logistics automation
+
+**Source code:** [logistics_dummy_agent.py](exercises/logistics_dummy_agent.py)
+
+**Technical documentation:** [Exercise 002](notes/exercise_002.md)
 
 ## Long-Term Vision
 
