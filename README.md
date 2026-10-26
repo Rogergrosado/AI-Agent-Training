@@ -35,10 +35,12 @@ Additional technologies will be documented as they are introduced.
 AI-Agent-Training/
 ├── exercises/
 │   ├── first_local_llm.py
-│   └── logistics_dummy_agent.py
+│   ├── logistics_dummy_agent.py
+│   └── structured_logistics_agent.py
 ├── notes/
 │   ├── exercise_001.md
-│   └── exercise_002.md
+│   ├── exercise_002.md
+│   └── exercise_003.md
 ├── projects/
 ├── README.md
 └── .gitignore
@@ -50,6 +52,7 @@ AI-Agent-Training/
 |---|---|---|
 | 001 | Running My First Local LLM | Completed |
 | 002 | Logistics Dummy Agent - Thought-Action-Observation Cycle | Completed |
+| 003 | Structured Logistics Agent - JSON Tool Calling | Completed |
 
 ## Exercise 001 — Running My First Local LLM
 
@@ -83,6 +86,20 @@ The exercise includes four shipment scenarios:
 - SHP-999: Shipment not found
 
 A reliability improvement was implemented to handle missing shipment records with a deterministic response instead of relying on the language model.
+
+### Exercise 003 – Structured Logistics Agent
+
+Developed a structured logistics agent using Python, Ollama, and the local Qwen2 1.5B model.
+
+The agent converts natural-language shipment inquiries into JSON-formatted tool actions, parses the generated instructions, executes a Python shipment-tracking function, and produces a final answer based on verified observations.
+
+**Key concepts:** Structured actions, JSON parsing, tool execution, observations, final answers, and basic error handling.
+
+**Testing:** Successfully validated four shipment scenarios: In Transit, Delivered, Delayed, and Shipment Not Found.
+
+**Source code:** [structured_logistics_agent.py](exercises/structured_logistics_agent.py)
+
+**Documentation:** [exercise_003.md](notes/exercise_003.md)
 
 **Key Concepts:**
 - AI agent architecture
