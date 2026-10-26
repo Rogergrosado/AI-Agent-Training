@@ -12,7 +12,7 @@ shipments = {
     "SHP-001": "In Transit",
     "SHP-002": "Delivered",
     "SHP-003": "Pending",
-    "SHP-004": "Delayed"
+    "SHP-004": "Delayed",
 }
 
 
@@ -25,12 +25,8 @@ def get_shipment_status(shipment_id):
 def ask_llm(prompt):
     response = requests.post(
         OLLAMA_URL,
-        json={
-            "model": MODEL,
-            "prompt": prompt,
-            "stream": False
-        },
-        timeout=120
+        json={"model": MODEL, "prompt": prompt, "stream": False},
+        timeout=120,
     )
 
     response.raise_for_status()
@@ -84,7 +80,7 @@ Do not invent delivery dates or locations.
         final_answer = (
             f"No tracking record was found for {shipment_id}. "
             "Please verify the shipment ID."
-         )
+        )
     else:
         final_answer = ask_llm(final_prompt)
 
