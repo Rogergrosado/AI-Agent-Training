@@ -38,12 +38,14 @@ AI-Agent-Training/
 │   ├── first_local_llm.py
 │   ├── logistics_dummy_agent.py
 │   ├── structured_logistics_agent.py
-│   └── smolagents_logistics_agent.py
+│   ├── smolagents_logistics_agent.py
+│   └── logistics_exception_agent.py
 ├── notes/
 │   ├── exercise_001.md
 │   ├── exercise_002.md
 │   ├── exercise_003.md
-│   └── exercise_004.md
+│   ├── exercise_004.md
+│   └── exercise_005.md
 ├── projects/
 ├── README.md
 └── .gitignore
@@ -57,6 +59,7 @@ AI-Agent-Training/
 | 002 | Logistics Dummy Agent - Thought-Action-Observation Cycle | Completed |
 | 003 | Structured Logistics Agent - JSON Tool Calling | Completed |
 | 004 | Smolagents Logistics Agent - Framework-Based Tool Calling | Completed |
+005 | Logistics Exception Management Agent | Smolagents-Based Tool Calling | Completed
 
 ## Exercise 001 — Running My First Local LLM
 
@@ -240,6 +243,77 @@ This exercise helped me understand the differences between manually implemented 
 **Source Code:** [smolagents_logistics_agent.py](exercises/smolagents_logistics_agent.py)
 
 **Documentation:** [exercise_004.md](notes/exercise_004.md)
+
+
+## Exercise 005 — Logistics Exception Management Agent
+
+**Course:** Hugging Face AI Agents Course — Unit 2.1: smolagents
+
+**Date:** October 28, 2026
+
+### Objective
+
+Extend the shipment-tracking capabilities developed in Exercise 004 into a logistics exception management agent capable of identifying delivery delays, classifying operational priorities, and recommending appropriate actions.
+
+### What I Built
+
+I developed a Python-based logistics exception management system that combines deterministic business rules with AI-powered tool calling.
+
+The system can:
+
+- Retrieve shipment information from a simulated database.
+- Calculate delivery delays using a fixed reference date.
+- Classify exceptions as NONE, LOW, MEDIUM, or HIGH.
+- Recommend operational actions based on predefined rules.
+- Generate structured JSON exception reports.
+- Execute a custom tool through the smolagents framework.
+- Interpret natural-language requests using a locally hosted AI model.
+- Handle unknown shipment IDs without inventing tracking information.
+
+### Technologies Used
+
+- Python 3.12.4
+- smolagents 1.26.0
+- Ollama
+- Qwen2 1.5B
+- LiteLLMModel
+- ToolCallingAgent
+- JSON
+
+### Testing Results
+
+| Shipment | Delay | Priority | Recommended Action |
+|----------|-------|----------|--------------------|
+| SHP-001 | 0 days | NONE | No action required |
+| SHP-002 | 0 days | NONE | No action required |
+| SHP-003 | 2 days | LOW | Monitor shipment |
+| SHP-004 | 5 days | HIGH | Escalate to logistics manager |
+| SHP-005 | 4 days | MEDIUM | Contact carrier |
+| SHP-999 | Not found | UNKNOWN | Verify shipment ID |
+
+The Python business logic was tested across the priority categories.
+
+The AI agent also successfully executed shipment analysis requests using the custom smolagents tool.
+
+### What I Learned
+
+This exercise helped me understand the importance of separating deterministic business logic from AI decision-making.
+
+Instead of allowing the language model to calculate delays or invent operational recommendations, I created Python functions responsible for these tasks.
+
+The AI agent focuses on interpreting requests, selecting the appropriate tool, and communicating the results.
+
+This approach makes the system easier to test, maintain, and expand.
+
+### Project Files
+
+**Source Code:** [logistics_exception_agent.py](exercises/logistics_exception_agent.py)
+
+**Technical Documentation:** [exercise_005.md](notes/exercise_005.md)
+
+### Next Step
+
+Exercise 006 — Logistics Knowledge Retrieval Agent
 
 
 ## Long-Term Vision
