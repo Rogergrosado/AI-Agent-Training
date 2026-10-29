@@ -40,14 +40,16 @@ AI-Agent-Training/
 │   ├── structured_logistics_agent.py
 │   ├── smolagents_logistics_agent.py
 │   ├── logistics_exception_agent.py
-│   └── logistics_knowledge_agent.py
+│   ├── logistics_knowledge_agent.py
+│   ├── logistics_policy_decision_agent.py
 ├── notes/
 │   ├── exercise_001.md
 │   ├── exercise_002.md
 │   ├── exercise_003.md
 │   ├── exercise_004.md
 │   ├── exercise_005.md
-│   └── exercise_006.md
+│   ├── exercise_006.md
+│   ├── exercise_007.md
 ├── projects/
 ├── README.md
 └── .gitignore
@@ -63,6 +65,7 @@ AI-Agent-Training/
 | 004 | Smolagents Logistics Agent - Framework-Based Tool Calling | Completed |
 005 | Logistics Exception Management Agent | Smolagents-Based Tool Calling | Completed
 | 006 | Logistics Knowledge Retrieval Agent - Policy Search and Tool Calling | Completed |
+| 007 | Logistics Policy Decision Agent | Completed | [Source Code](exercises/logistics_policy_decision_agent.py) | [Documentation](notes/exercise_007.md) |
 
 ## Exercise 001 — Running My First Local LLM
 
@@ -383,6 +386,69 @@ These challenges reinforced the importance of grounding AI responses in verified
 
 **Documentation:** [exercise_006.md](notes/exercise_006.md)
 
+
+## Exercise 007 — Logistics Policy Decision Agent
+
+**Course:** Hugging Face AI Agents Course — Unit 2.1: smolagents
+
+**Date:** October 28, 2026
+
+**Status:** Completed Prototype
+
+### Objective
+
+Develop a logistics decision-support system that integrates shipment exception analysis, company policy retrieval, and policy-based decision validation.
+
+### What I Built
+
+I developed a Python-based logistics policy decision agent that combines the capabilities of Exercises 005 and 006 into a more comprehensive operational workflow.
+
+The system can:
+
+- Analyze shipment status, delivery delays, and operational priorities.
+- Retrieve relevant logistics policies from a simulated knowledge base.
+- Match shipment exceptions with appropriate company procedures.
+- Validate recommended actions against policy requirements.
+- Generate structured decision reports.
+- Handle missing or unknown shipment identifiers.
+- Execute policy analysis through an AI agent using smolagents.
+- Produce reliable, deterministic reports independently of the language model's final response.
+
+### Technologies Used
+
+- Python 3.12.4
+- smolagents
+- Ollama
+- Qwen2 1.5B
+- LiteLLMModel
+- ToolCallingAgent
+- JSON
+- Git and GitHub
+
+### Testing Results
+
+| Test Scenario | Result |
+|---|---|
+| Shipment in transit — SHP-001 | Passed |
+| Five-day shipment delay — SHP-004 | Passed |
+| Unknown shipment — SHP-999 | Passed |
+| Policy decision validation | Passed |
+| Deterministic report generation | Passed |
+| AI tool execution | Completed with observed model limitations |
+
+### Key Learning Outcomes
+
+This exercise demonstrated the importance of combining AI-powered reasoning with deterministic business logic.
+
+During testing, I observed that a small local language model could successfully execute logistics tools but sometimes produce incomplete responses or repeat tool calls.
+
+To address this limitation, I implemented a separate reliable reporting workflow that uses validated Python data rather than depending entirely on the model's generated text.
+
+This approach provides a stronger foundation for developing dependable AI-assisted logistics applications.
+
+**Source Code:** [logistics_policy_decision_agent.py](exercises/logistics_policy_decision_agent.py)
+
+**Technical Documentation:** [exercise_007.md](notes/exercise_007.md)
 
 
 ## Long-Term Vision
