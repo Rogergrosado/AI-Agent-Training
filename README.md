@@ -39,13 +39,15 @@ AI-Agent-Training/
 │   ├── logistics_dummy_agent.py
 │   ├── structured_logistics_agent.py
 │   ├── smolagents_logistics_agent.py
-│   └── logistics_exception_agent.py
+│   ├── logistics_exception_agent.py
+│   └── logistics_knowledge_agent.py
 ├── notes/
 │   ├── exercise_001.md
 │   ├── exercise_002.md
 │   ├── exercise_003.md
 │   ├── exercise_004.md
-│   └── exercise_005.md
+│   ├── exercise_005.md
+│   └── exercise_006.md
 ├── projects/
 ├── README.md
 └── .gitignore
@@ -60,6 +62,7 @@ AI-Agent-Training/
 | 003 | Structured Logistics Agent - JSON Tool Calling | Completed |
 | 004 | Smolagents Logistics Agent - Framework-Based Tool Calling | Completed |
 005 | Logistics Exception Management Agent | Smolagents-Based Tool Calling | Completed
+| 006 | Logistics Knowledge Retrieval Agent - Policy Search and Tool Calling | Completed |
 
 ## Exercise 001 — Running My First Local LLM
 
@@ -311,9 +314,75 @@ This approach makes the system easier to test, maintain, and expand.
 
 **Technical Documentation:** [exercise_005.md](notes/exercise_005.md)
 
-### Next Step
 
-Exercise 006 — Logistics Knowledge Retrieval Agent
+## Exercise 006 — Logistics Knowledge Retrieval Agent
+
+**Course:** Hugging Face AI Agents Course — Unit 2.1: smolagents
+
+**Date:** October 28, 2026
+
+**Status:** Completed Prototype
+
+### Objective
+
+Develop a logistics knowledge retrieval agent capable of searching simulated company policies, identifying relevant operational procedures, and answering questions using retrieved information.
+
+### What I Built
+
+I developed a Python-based knowledge retrieval system combining a simulated logistics policy database, relevance-ranked search, and AI-powered tool calling through the smolagents framework.
+
+The system can:
+
+- Retrieve company policies using unique policy identifiers.
+- Search operational procedures using keywords.
+- Rank matching policies based on relevance scores.
+- Retrieve procedures for delayed, damaged, and missing shipments.
+- Provide customer notification guidance.
+- Execute a custom knowledge retrieval tool through smolagents.
+- Interpret natural-language questions using a locally hosted AI model.
+- Generate answers based on retrieved company policies.
+- Recognize when requested policies are unavailable.
+
+### Technologies Used
+
+- Python 3.12.4
+- smolagents
+- Ollama
+- Qwen2 1.5B
+- LiteLLMModel
+- ToolCallingAgent
+- JSON
+- Git and GitHub
+
+### Testing Results
+
+| Test Scenario | Result |
+|---|---|
+| Direct policy retrieval | Passed |
+| Keyword-based knowledge search | Passed |
+| Relevance ranking | Passed |
+| Damaged goods procedure | Passed |
+| Delayed shipment procedure | Passed |
+| Unknown insurance policy | Partially passed |
+
+The agent successfully retrieved relevant logistics policies and provided procedural guidance.
+
+During the insurance reimbursement test, the retrieval tool correctly reported that no relevant policy existed. However, the agent repeated its search and eventually produced a generic fallback response.
+
+### Challenges and Lessons Learned
+
+This exercise helped me understand how AI agents can retrieve organizational knowledge instead of relying entirely on a language model's internal knowledge.
+
+I also learned that successful information retrieval does not guarantee an efficient or informative final response.
+
+The main limitations involved search precision, repeated tool calls, and handling questions for which no policy was available.
+
+These challenges reinforced the importance of grounding AI responses in verified information and evaluating retrieval quality separately from response generation.
+
+**Source Code:** [logistics_knowledge_agent.py](exercises/logistics_knowledge_agent.py)
+
+**Documentation:** [exercise_006.md](notes/exercise_006.md)
+
 
 
 ## Long-Term Vision
