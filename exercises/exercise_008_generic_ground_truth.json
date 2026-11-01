@@ -1,0 +1,32 @@
+{
+    "image_id": "exercise_008_generic_boxes",
+    "image_type": "shipping_boxes",
+    "expected_symbols": [
+        "This Way Up",
+        "Recyclable",
+        "Dispose Properly",
+        "Keep Dry",
+        "Fragile",
+        "Snowflake"
+    ],
+    "expected_symbol_occurrences": {
+        "This Way Up": 1,
+        "Recyclable": 1,
+        "Dispose Properly": 2,
+        "Keep Dry": 1,
+        "Fragile": 1,
+        "Snowflake": 1
+    },
+    "other_markings": [
+        {
+            "marking": "2",
+            "meaning": "Unknown",
+            "note": "Do not infer package series or stacking capacity."
+        }
+    ],
+    "critical_checks": {
+        "this_way_up": "Keep package upright.",
+        "snowflake": "Temperature-related marking; exact requirement unknown.",
+        "invented_meanings_not_allowed": true
+    }
+}

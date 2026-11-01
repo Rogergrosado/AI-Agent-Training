@@ -1,0 +1,26 @@
+{
+    "image_type": "shipping_handling_symbols",
+    "expected_symbol_count": 15,
+    "expected_symbols": [
+        "This Way Up",
+        "Fragile",
+        "Keep Dry",
+        "Keep Away from Sunlight",
+        "Do Not Stack",
+        "Handle with Care",
+        "Heavy",
+        "Use Forklift",
+        "Temperature Limits",
+        "Keep Away from Fire",
+        "Recyclable",
+        "Dispose Properly",
+        "Do Not Use Hooks",
+        "Do Not Clamp",
+        "Center of Gravity"
+    ],
+    "critical_checks": {
+        "this_way_up": "Keep the package upright in the indicated orientation.",
+        "temperature_min_c": -20,
+        "temperature_max_c": 40
+    }
+}
