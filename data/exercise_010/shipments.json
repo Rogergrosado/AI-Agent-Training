@@ -1,0 +1,31 @@
+{
+    "shipments": [
+        {
+            "shipment_id": "SHP-1045",
+            "customer": "Caribbean Retail Group",
+            "status": "On Hold",
+            "issue_type": "Damaged Packaging",
+            "priority": "High",
+            "description": "Shipment arrived with visible packaging damage. Customer requests immediate delivery.",
+            "delivery_confirmed": false
+        },
+        {
+            "shipment_id": "SHP-2087",
+            "customer": "Atlantic Distribution",
+            "status": "Delayed",
+            "issue_type": "Delivery Delay",
+            "priority": "Medium",
+            "description": "Shipment has not arrived by the expected delivery date.",
+            "delivery_confirmed": false
+        },
+        {
+            "shipment_id": "SHP-3092",
+            "customer": "Global Medical Supplies",
+            "status": "Escalation Required",
+            "issue_type": "Critical Shipment Exception",
+            "priority": "Critical",
+            "description": "Repeated delivery failures are affecting a critical customer commitment.",
+            "delivery_confirmed": false
+        }
+    ]
+}
