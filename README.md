@@ -52,7 +52,8 @@ AI-Agent-Training/
 │   ├── exercise_008_generic_ground_truth.json
 │   ├── logistics_semantic_search_agent.py
 │   ├── logistics_tool_using_rag_agent.py
-│   └── logistics_rag_llm_agent.py
+│   ├── logistics_rag_llm_agent.py
+│   └── logistics_langgraph_workflow.py
 ├── notes/
 │   ├── exercise_001.md
 │   ├── exercise_002.md
@@ -63,7 +64,8 @@ AI-Agent-Training/
 │   ├── exercise_007.md
 │   ├── exercise_008.md
 │   ├── exercise_009.md
-│   └── exercise_010.md
+│   ├── exercise_010.md
+│   └── exercise_011.md
 ├── results/
 │   └── exercise_008/          # Local generated test outputs
 ├── archive/                   # Local experimental history
@@ -87,6 +89,7 @@ AI-Agent-Training/
 | 008 | Multimodal Logistics Research Agent | Completed prototype — human verification required |
 | 009 | Logistics Semantic Search Agent — LlamaIndex | Completed |
 | 010 | Logistics Tool-Using RAG Agent - Shipment Retrieval, Semantic Policy Search, and Validated Reporting | Completed Prototype - LLM Tool-Calling Limitations Documented |
+| 011 | Reliable Logistics Workflows with LangGraph — State Management, Conditional Routing, Semantic Policy Retrieval, and Human-Reviewed Decision Support | Completed |
 
 ## Exercise 001 — Running My First Local LLM
 **Date:** October 25, 2026
@@ -615,6 +618,160 @@ The exercise demonstrated the value of separating reliable application logic fro
 - `exercises/logistics_tool_using_rag_agent.py`
 - `exercises/logistics_rag_llm_agent.py`
 - `data/exercise_010/shipments.json`
+
+### Exercise 011 — Reliable Logistics Workflows with LangGraph
+
+**Status:** Completed — Three Automated Workflow Tests Passed
+
+**Framework:** LangGraph
+
+**Objective:** Design and implement a reliable, state-driven logistics workflow that combines shipment data retrieval, validation, semantic policy search, and operational decision support through explicitly controlled execution paths.
+
+#### Overview
+
+Exercise 011 introduces workflow orchestration using LangGraph, extending the capabilities developed in previous exercises into a coordinated logistics investigation system.
+
+Earlier exercises demonstrated how to retrieve shipment information, search operational policies, and generate recommendations. This exercise connects those components into a structured workflow that determines which operations should execute, in what order, and under which conditions.
+
+Unlike an autonomous agent that relies on a language model to select every action, this implementation uses deterministic workflow logic to manage execution. This approach makes the system easier to test, inspect, and maintain.
+
+#### Workflow Architecture
+
+The system uses LangGraph's `StateGraph` and a shared Python `TypedDict` named `ShipmentState`.
+
+The state contains:
+
+- `shipment_id`: Identifier of the shipment under investigation.
+- `status`: Current processing status.
+- `errors`: Validation and processing errors.
+- `shipment`: Retrieved shipment information.
+- `policies`: Relevant logistics policy documents.
+- `decision`: Structured operational recommendation.
+
+The workflow consists of five main processing nodes:
+
+1. **Initialize Shipment:** Establishes the initial workflow state and clears previous results.
+2. **Lookup Shipment:** Retrieves shipment information from the JSON dataset introduced in Exercise 010.
+3. **Validate Shipment:** Checks that required shipment fields are present and contain acceptable values.
+4. **Retrieve Policies:** Uses the semantic search system from Exercise 009 to identify relevant logistics procedures.
+5. **Evaluate Shipment:** Creates a structured operational recommendation using the validated shipment information and retrieved policy references.
+
+#### Conditional Routing and Error Handling
+
+Conditional routing is a central feature of the implementation.
+
+After shipment lookup, the workflow checks whether the shipment exists. If the shipment cannot be found, processing ends with a `not_found` status and an appropriate error message.
+
+If the shipment exists, the workflow proceeds to validation. Missing required fields produce a `validation_failed` status and prevent the workflow from executing policy retrieval or evaluation.
+
+Only successfully validated shipments proceed to semantic policy retrieval.
+
+This design prevents incomplete or nonexistent records from being processed as legitimate logistics investigations.
+
+#### Semantic Policy Integration
+
+The workflow integrates the LlamaIndex-based semantic retrieval functionality developed in Exercise 009.
+
+A query is constructed using shipment attributes, including the exception type, priority, and description.
+
+The retrieval system searches the available logistics policy documents and returns relevant results with:
+
+- Source document filename.
+- Similarity score, when available.
+- Relevant policy excerpt.
+
+This enables the workflow to associate shipment exceptions with potentially applicable operational procedures while preserving references to the original policy documents.
+
+#### Structured Operational Decision Support
+
+Once the shipment has been validated and relevant policies have been retrieved, the evaluation node creates a structured decision.
+
+The decision includes:
+
+- Shipment identifier.
+- Shipment exception type.
+- Priority classification.
+- Recommended next action.
+- Supporting policy document filenames.
+- Human review requirement.
+
+The current implementation produces a conservative recommendation to review the retrieved policies and escalate the shipment for operational assessment.
+
+The `requires_human_review` field is set to `True`, ensuring that the prototype does not present its recommendations as independently authorized operational decisions.
+
+#### Testing and Results
+
+Three automated workflow scenarios were executed successfully.
+
+**Test 1 — Valid Shipment (`SHP-1045`)**
+
+The workflow successfully retrieved an existing shipment, validated its required fields, retrieved relevant logistics policies, and generated a structured recommendation.
+
+**Result:** `PASS — Valid shipment workflow`
+
+**Test 2 — Missing Shipment (`SHP-9999`)**
+
+The workflow correctly identified that the requested shipment did not exist.
+
+Processing stopped before validation, semantic retrieval, and operational evaluation.
+
+**Result:** `PASS — Missing shipment workflow`
+
+**Test 3 — Incomplete Shipment Data**
+
+A test shipment containing incomplete information was submitted to the validation stage.
+
+The workflow identified five missing required fields: `status`, `issue_type`, `priority`, `description`, and `delivery_confirmed`.
+
+The workflow returned `validation_failed` without proceeding to semantic retrieval or evaluation.
+
+**Result:** `PASS — Incomplete shipment validation`
+
+**Final automated test output:**
+
+```text
+PASS: Valid shipment workflow
+PASS: Missing shipment workflow
+PASS: Incomplete shipment validation
+
+All automated workflow tests passed.
+```
+
+#### Engineering Outcomes
+
+This exercise demonstrates several important software engineering principles:
+
+- **Deterministic orchestration:** Workflow execution follows explicitly defined rules rather than unpredictable model-generated actions.
+- **Shared state management:** Processing nodes exchange information through a consistent state structure.
+- **Conditional execution:** Downstream operations run only when prerequisite conditions are satisfied.
+- **Modular integration:** Previously developed shipment lookup and semantic retrieval components can be reused.
+- **Error containment:** Invalid inputs are prevented from reaching later processing stages.
+- **Human oversight:** Operational recommendations remain subject to review and approval.
+- **Automated verification:** Tests confirm the expected behavior of the three primary workflow scenarios.
+
+#### Limitations and Future Improvements
+
+The system remains an educational prototype operating on local shipment data and logistics policy documents.
+
+The current recommendation is intentionally conservative rather than a comprehensive, policy-specific decision engine.
+
+Future development opportunities include policy relevance thresholds, more detailed decision rules, additional automated tests, persistent workflow checkpoints, structured logging, and integration with external transportation or warehouse management systems.
+
+#### Technologies Used
+
+Python 3.12, LangGraph, LlamaIndex, Hugging Face Embeddings, JSON, Visual Studio Code, and PowerShell.
+
+#### Project Files
+
+**Implementation:** [logistics_langgraph_workflow.py](exercises/logistics_langgraph_workflow.py)
+
+**Technical Notes:** [exercise_011.md](notes/exercise_011.md)
+
+#### Outcome
+
+Successfully implemented and tested a LangGraph-based logistics workflow that combines shipment lookup, data validation, semantic policy retrieval, and structured decision support.
+
+All three primary automated workflow scenarios passed, demonstrating controlled execution, appropriate error handling, and a foundation for more reliable logistics automation.
 
 ## Long-Term Vision
 My goal is to progressively develop AI-powered solutions for real-world operational challenges.
