@@ -144,14 +144,15 @@ if __name__ == "__main__":
 
     for shipment_id in ["SHP-1045", "SHP-2087", "SHP-3092", "SHP-9999"]:
         print(f"\nInvestigating shipment: {shipment_id}")
+
+        report = investigate_shipment(index, shipment_id)
+
         if shipment_id == "SHP-3092":
             print("\nDEBUG - All retrieved policies:")
             for policy in report["policies"]:
                 print(
                     f"{policy['policy']} | " f"Similarity: {policy['similarity_score']}"
                 )
-
-        report = investigate_shipment(index, shipment_id)
 
         print(f"Status: {report['status']}")
 

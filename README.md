@@ -34,6 +34,8 @@ AI-Agent-Training/
 │       ├── damaged_shipment_policy.txt
 │       ├── delayed_delivery_policy.txt
 │       └── shipment_escalation_policy.txt
+│   └── exercise_010/
+│       └── shipments.json
 ├── exercises/
 │   ├── first_local_llm.py
 │   ├── logistics_dummy_agent.py
@@ -48,7 +50,9 @@ AI-Agent-Training/
 │   ├── exercise_008_evaluator.py
 │   ├── exercise_008_ground_truth.json
 │   ├── exercise_008_generic_ground_truth.json
-│   └── logistics_semantic_search_agent.py
+│   ├── logistics_semantic_search_agent.py
+│   ├── logistics_tool_using_rag_agent.py
+│   └── logistics_rag_llm_agent.py
 ├── notes/
 │   ├── exercise_001.md
 │   ├── exercise_002.md
@@ -58,7 +62,8 @@ AI-Agent-Training/
 │   ├── exercise_006.md
 │   ├── exercise_007.md
 │   ├── exercise_008.md
-│   └── exercise_009.md
+│   ├── exercise_009.md
+│   └── exercise_010.md
 ├── results/
 │   └── exercise_008/          # Local generated test outputs
 ├── archive/                   # Local experimental history
@@ -81,7 +86,7 @@ AI-Agent-Training/
 | 007 | Logistics Policy Decision Agent | Completed |
 | 008 | Multimodal Logistics Research Agent | Completed prototype — human verification required |
 | 009 | Logistics Semantic Search Agent — LlamaIndex | Completed |
-
+| 010 | Logistics Tool-Using RAG Agent - Shipment Retrieval, Semantic Policy Search, and Validated Reporting | Completed Prototype - LLM Tool-Calling Limitations Documented |
 
 ## Exercise 001 — Running My First Local LLM
 **Date:** October 25, 2026
@@ -544,6 +549,72 @@ It also established the foundation for more advanced Retrieval-Augmented Generat
 
 **Technical Documentation:** [Exercise 009 — Logistics Semantic Search Agent](notes/exercise_009.md)
 
+## Exercise 010 — Logistics Tool-Using RAG Agent
+
+**Date:** November 2, 2026
+**Status:** Completed Prototype — Autonomous Tool-Calling Limitations Documented
+
+### Overview
+
+In Exercise 010, I developed a logistics investigation system that combines structured shipment data retrieval, semantic policy search, and evidence-based reporting.
+
+The project builds on the semantic retrieval capabilities introduced in Exercise 009 and extends them into a practical shipment investigation workflow.
+
+The primary objective was to investigate shipment exceptions using verified operational information while evaluating the reliability of a locally hosted AI agent.
+
+### Key Features
+
+- **Shipment Data Retrieval:** Retrieves shipment records from a JSON database using unique shipment identifiers.
+- **Semantic Policy Search:** Uses LlamaIndex to retrieve relevant logistics procedures from a document knowledge base.
+- **Policy Prioritization:** Applies deterministic rules to prioritize escalation procedures for critical shipment exceptions.
+- **Shipment Validation:** Verifies required fields and data types before generating reports.
+- **Evidence-Based Policy Filtering:** Distinguishes applicable policies from retrieved documents that lack supporting shipment evidence.
+- **Reliable Report Generation:** Produces structured operational reports independently of language model output.
+- **Local AI Agent Integration:** Uses smolagents, LiteLLM, Ollama, and Qwen 2.5 3B to experiment with autonomous tool calling.
+
+### Test Scenarios
+
+The system was evaluated using four shipment identifiers:
+
+| Shipment | Scenario | Observed Result |
+|---|---|---|
+| SHP-1045 | Damaged packaging | Relevant damage procedures retrieved; unsupported delivery-delay policy excluded from the validated report |
+| SHP-2087 | Delivery delay | Relevant delayed-delivery policy retrieved |
+| SHP-3092 | Critical shipment exception | Escalation policy prioritized |
+| SHP-9999 | Nonexistent shipment | Structured error returned without inventing shipment information |
+
+### Reliability Evaluation
+
+The underlying Python functions successfully retrieved shipment records, searched logistics policies, validated shipment information, and generated structured reports during the observed tests.
+
+The local AI agent also successfully invoked the validated reporting tool during one execution.
+
+However, subsequent agent steps produced malformed tool-call outputs, including JSON parsing errors. This prevented the autonomous workflow from achieving consistent reliability.
+
+Rather than introducing additional orchestration complexity, I preserved the working retrieval and reporting capabilities and documented the language model's limitations.
+
+### Engineering Takeaways
+
+This exercise reinforced several important principles:
+
+1. Semantic relevance does not automatically establish operational applicability.
+2. Critical business rules should be enforced through deterministic logic when reliability is essential.
+3. Data validation should occur before AI-generated interpretation.
+4. Tool registration and successful tool execution are separate engineering concerns.
+5. Local language models require explicit reliability evaluation before autonomous workflows can be trusted.
+
+### Outcome
+
+**Exercise 010 established a functioning logistics investigation and validated reporting prototype while identifying limitations in autonomous LLM tool calling.**
+
+The exercise demonstrated the value of separating reliable application logic from experimental language model behavior.
+
+**Technical documentation:** [Exercise 010 Report](notes/exercise_010.md)
+
+**Source files:**
+- `exercises/logistics_tool_using_rag_agent.py`
+- `exercises/logistics_rag_llm_agent.py`
+- `data/exercise_010/shipments.json`
 
 ## Long-Term Vision
 My goal is to progressively develop AI-powered solutions for real-world operational challenges.

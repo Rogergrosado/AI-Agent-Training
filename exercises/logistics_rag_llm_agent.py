@@ -136,6 +136,83 @@ def investigate_shipment(shipment_id: str) -> dict:
     }
 
 
+def generate_reliable_report(shipment_id: str) -> dict:
+    """Generate a structured report using verified shipment data."""
+
+    investigation = investigate_shipment(shipment_id)
+
+    if not investigation["success"]:
+        return {
+            "success": False,
+            "shipment_id": shipment_id,
+            "errors": investigation["errors"],
+        }
+
+    shipment = investigation["shipment"]
+    retrieved_policies = investigation["policies"]
+
+    applicable_policies = []
+    excluded_policies = []
+
+    issue_type = shipment["issue_type"].strip().lower()
+    status = shipment["status"].strip().lower()
+    description = shipment.get("description", "").lower()
+
+    delay_evidence = (
+        "delay" in issue_type
+        or "delayed" in status
+        or "past the expected delivery" in description
+    )
+
+    for policy in retrieved_policies:
+        filename = policy["policy"]
+
+        if filename == "delayed_delivery_policy.txt" and not delay_evidence:
+            excluded_policies.append(
+                {
+                    "policy": filename,
+                    "reason": "No verified evidence of a delivery delay.",
+                }
+            )
+            continue
+
+        applicable_policies.append(
+            {
+                "policy": filename,
+                "similarity_score": policy["similarity_score"],
+            }
+        )
+
+    return {
+        "success": True,
+        "shipment_id": shipment["shipment_id"],
+        "customer": shipment["customer"],
+        "status": shipment["status"],
+        "issue_type": shipment["issue_type"],
+        "priority": shipment["priority"],
+        "delivery_confirmed": shipment["delivery_confirmed"],
+        "description": shipment.get("description", ""),
+        "applicable_policies": applicable_policies,
+        "excluded_policies": excluded_policies,
+        "report_source": "Validated shipment data and retrieved policies",
+    }
+
+
+@tool
+def get_reliable_shipment_report(shipment_id: str) -> dict:
+    """
+    Generate a validated, evidence-based shipment report.
+
+    Args:
+        shipment_id: The shipment identifier, such as SHP-1045.
+
+    Returns:
+        A structured shipment report with applicable and excluded policies,
+        or validation errors when the shipment cannot be investigated.
+    """
+    return generate_reliable_report(shipment_id)
+
+
 def create_agent():
     model = LiteLLMModel(
         model_id="ollama_chat/qwen2.5:3b",
@@ -145,7 +222,11 @@ def create_agent():
     )
 
     return ToolCallingAgent(
-        tools=[lookup_shipment, search_policy],
+        tools=[
+            lookup_shipment,
+            search_policy,
+            get_reliable_shipment_report,
+        ],
         model=model,
         max_steps=4,
     )
