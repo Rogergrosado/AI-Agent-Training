@@ -29,32 +29,41 @@ Additional technologies will be documented as they are introduced.
 
 ```text
 AI-Agent-Training/
+├── data/
+│   └── exercise_009/
+│       ├── damaged_shipment_policy.txt
+│       ├── delayed_delivery_policy.txt
+│       └── shipment_escalation_policy.txt
 ├── exercises/
-│   ├── first_local_llm.py
-│   ├── logistics_dummy_agent.py
-│   ├── structured_logistics_agent.py
-│   ├── smolagents_logistics_agent.py
-│   ├── logistics_exception_agent.py
-│   ├── logistics_knowledge_agent.py
+│   ├── first_local_llm.py
+│   ├── logistics_dummy_agent.py
+│   ├── structured_logistics_agent.py
+│   ├── smolagents_logistics_agent.py
+│   ├── logistics_exception_agent.py
+│   ├── logistics_knowledge_agent.py
 │   ├── logistics_policy_decision_agent.py
 │   ├── multimodal_logistics_agent.py
 │   ├── logistics_web_search.py
 │   ├── exercise_008_integrator.py
 │   ├── exercise_008_evaluator.py
 │   ├── exercise_008_ground_truth.json
-│   └── exercise_008_generic_ground_truth.json
+│   ├── exercise_008_generic_ground_truth.json
+│   └── logistics_semantic_search_agent.py
 ├── notes/
-│   ├── exercise_001.md
-│   ├── exercise_002.md
-│   ├── exercise_003.md
-│   ├── exercise_004.md
-│   ├── exercise_005.md
-│   ├── exercise_006.md
+│   ├── exercise_001.md
+│   ├── exercise_002.md
+│   ├── exercise_003.md
+│   ├── exercise_004.md
+│   ├── exercise_005.md
+│   ├── exercise_006.md
 │   ├── exercise_007.md
-│   └── exercise_008.md
+│   ├── exercise_008.md
+│   └── exercise_009.md
 ├── results/
-│   └── exercise_008/           # Generated test outputs (local)
-├── archive/                    # Earlier experimental versions (local)
+│   └── exercise_008/          # Local generated test outputs
+├── archive/                   # Local experimental history
+├── storage/
+│   └── exercise_009/          # Local persistent vector index
 ├── projects/
 ├── README.md
 └── .gitignore
@@ -71,6 +80,8 @@ AI-Agent-Training/
 | 006 | Logistics Knowledge Retrieval Agent - Policy Search and Tool Calling | Completed |
 | 007 | Logistics Policy Decision Agent | Completed |
 | 008 | Multimodal Logistics Research Agent | Completed prototype — human verification required |
+| 009 | Logistics Semantic Search Agent — LlamaIndex | Completed |
+
 
 ## Exercise 001 — Running My First Local LLM
 **Date:** October 25, 2026
@@ -477,6 +488,62 @@ This exercise reinforced the importance of separating visual recognition, evalua
 **Technical documentation:** [exercise_008.md](notes/exercise_008.md)
 
 ---
+
+#### Exercise 009 — Logistics Semantic Search Agent
+
+**Unit:** 2.2 — LlamaIndex  
+**Status:** Completed  
+**Focus:** Semantic Search, Vector Embeddings, Knowledge Retrieval, and Index Persistence
+
+**Objective**
+
+Develop a local semantic search system capable of retrieving relevant logistics policies from natural-language questions. The goal was to move beyond traditional keyword-based retrieval and introduce a vector-based knowledge retrieval architecture using LlamaIndex.
+
+**Implementation**
+
+The application was developed in Python using LlamaIndex and Hugging Face sentence embeddings. A small logistics knowledge base was created using three operational policies covering damaged shipments, delayed deliveries, and shipment exception escalation.
+
+The system performs the following operations:
+
+1. Loads logistics policy documents from local text files using `SimpleDirectoryReader`.
+2. Converts the documents into numerical embeddings using the `BAAI/bge-small-en-v1.5` model.
+3. Creates a semantic vector index using `VectorStoreIndex`.
+4. Processes natural-language questions and retrieves the three most relevant policy documents.
+5. Displays document names, similarity scores, and policy excerpts for inspection.
+6. Saves the vector index locally and reloads it during subsequent executions to avoid unnecessary rebuilding.
+
+**Validation and Results**
+
+Three logistics scenarios were used to evaluate retrieval accuracy:
+
+- **Damaged Shipment:** A customer reports receiving a broken package. The system correctly ranks the damaged shipment handling policy first, with a similarity score of 0.7081.
+- **Delayed Delivery:** A shipment fails to arrive by its expected delivery date. The delayed delivery management policy is retrieved as the highest-ranked result, with a similarity score of 0.7481.
+- **Operational Escalation:** A critical shipment exception requires supervisor review. The shipment exception escalation policy ranks first, with a similarity score of 0.8342.
+
+All three tests successfully identified the expected policy as the highest-ranked document.
+
+**Index Persistence**
+
+An additional improvement was introduced to prevent the application from rebuilding the vector index every time it runs.
+
+During the first execution, the system generates and saves the index under `storage/exercise_009/`. Subsequent executions load the previously stored index using LlamaIndex's storage context.
+
+This demonstrates an important architectural concept: separating document indexing from repeated retrieval operations.
+
+**Technical Limitations**
+
+The current implementation uses a small, controlled knowledge base containing only three policies. The similarity scores represent semantic relevance rather than verified operational correctness.
+
+The system currently retrieves supporting documents but does not generate complete, source-grounded operational recommendations. Additionally, the persisted index must be refreshed when the underlying policies are updated.
+
+**Key Learning Outcomes**
+
+This exercise introduced practical experience with semantic embeddings, vector similarity search, document retrieval, and persistent local indexes.
+
+It also established the foundation for more advanced Retrieval-Augmented Generation (RAG) systems that can connect language models to documented operational knowledge.
+
+**Technical Documentation:** [Exercise 009 — Logistics Semantic Search Agent](notes/exercise_009.md)
+
 
 ## Long-Term Vision
 My goal is to progressively develop AI-powered solutions for real-world operational challenges.

@@ -1,0 +1,15 @@
+﻿POLICY ID: ESC-003
+TITLE: Shipment Exception Escalation
+CATEGORY: Operational Escalation
+
+Shipment exceptions must be classified according to their operational impact and urgency.
+
+Low-impact exceptions may be handled by the logistics coordinator following standard procedures.
+
+Exceptions involving damaged goods, repeated delivery failures, missing shipments, or critical customer commitments require supervisor review.
+
+The escalation record must include the shipment identifier, issue summary, supporting evidence, and actions already attempted.
+
+The supervisor determines the appropriate corrective action and documents the final decision.
+
+An exception must remain open until the resolution has been recorded and communicated to the relevant parties.

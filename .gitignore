@@ -20,3 +20,8 @@ __pycache__/
 
 # Temporary files
 *.log
+# Local experimental history (not published)
+/archive/
+/results/
+# Local vector indexes
+storage/

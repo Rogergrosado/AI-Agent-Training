@@ -1,0 +1,13 @@
+﻿POLICY ID: DEL-002
+TITLE: Delayed Delivery Management
+CATEGORY: Transportation Exceptions
+
+A shipment is considered delayed when its expected delivery time has passed without confirmed delivery.
+
+The logistics coordinator must verify the latest carrier tracking information and identify the reason for the delay.
+
+The customer must receive an updated delivery estimate when reliable information becomes available.
+
+If the delay affects a critical delivery commitment, the case must be escalated to the operations supervisor.
+
+All communication, tracking updates, and corrective actions must be recorded in the shipment history.

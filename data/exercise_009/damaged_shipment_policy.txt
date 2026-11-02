@@ -1,0 +1,13 @@
+﻿POLICY ID: DAM-001
+TITLE: Damaged Shipment Handling
+CATEGORY: Shipment Exceptions
+
+If a shipment arrives with visible packaging damage, the receiving team must photograph the package before opening it.
+
+The team must inspect the contents, record the shipment identifier, and document the condition of the goods.
+
+If the goods are damaged, the shipment must be placed on hold and reported to the logistics supervisor.
+
+A damage claim must include photographs, the shipment identifier, a description of the damage, and the receiving date.
+
+The shipment must not be released for normal distribution until the responsible team authorizes the next action.
