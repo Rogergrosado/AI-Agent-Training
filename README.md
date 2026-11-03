@@ -53,7 +53,9 @@ AI-Agent-Training/
 │   ├── logistics_semantic_search_agent.py
 │   ├── logistics_tool_using_rag_agent.py
 │   ├── logistics_rag_llm_agent.py
-│   └── logistics_langgraph_workflow.py
+│   ├── logistics_langgraph_workflow.py
+│   ├── logistics_multi_agent_system.py
+│   └── exercise_012_tests.py
 ├── notes/
 │   ├── exercise_001.md
 │   ├── exercise_002.md
@@ -65,7 +67,8 @@ AI-Agent-Training/
 │   ├── exercise_008.md
 │   ├── exercise_009.md
 │   ├── exercise_010.md
-│   └── exercise_011.md
+│   ├── exercise_011.md
+│   └── exercise_012.md
 ├── results/
 │   └── exercise_008/          # Local generated test outputs
 ├── archive/                   # Local experimental history
@@ -90,6 +93,8 @@ AI-Agent-Training/
 | 009 | Logistics Semantic Search Agent — LlamaIndex | Completed |
 | 010 | Logistics Tool-Using RAG Agent - Shipment Retrieval, Semantic Policy Search, and Validated Reporting | Completed Prototype - LLM Tool-Calling Limitations Documented |
 | 011 | Reliable Logistics Workflows with LangGraph — State Management, Conditional Routing, Semantic Policy Retrieval, and Human-Reviewed Decision Support | Completed |
+| 012 | Multi-Agent Freight Operations System — Five Specialized Agents, LangGraph Orchestration, Semantic Policy Retrieval, Exception Analysis, Human Review Controls, and Automated Integration Testing | Completed — 3/3 Tests Passed |
+
 
 ## Exercise 001 — Running My First Local LLM
 **Date:** October 25, 2026
@@ -772,6 +777,265 @@ Python 3.12, LangGraph, LlamaIndex, Hugging Face Embeddings, JSON, Visual Studio
 Successfully implemented and tested a LangGraph-based logistics workflow that combines shipment lookup, data validation, semantic policy retrieval, and structured decision support.
 
 All three primary automated workflow scenarios passed, demonstrating controlled execution, appropriate error handling, and a foundation for more reliable logistics automation.
+
+## Exercise 012 — Multi-Agent Freight Operations System
+
+**Unit 2.2 — Agentic Frameworks | Status: Completed**
+
+### Objective
+
+Develop a multi-agent freight operations system capable of coordinating specialized logistics functions through a structured, state-driven workflow.
+
+The exercise builds on the capabilities introduced in previous training activities, particularly semantic policy retrieval, shipment data validation, and LangGraph workflow orchestration.
+
+Instead of relying on a single language model to perform every operational task, the system separates responsibilities across five specialized agents. Each agent processes a specific part of the shipment investigation and contributes information to a shared workflow state.
+
+The main objective is to demonstrate how modular agent-based architectures can support logistics operations through controlled execution, traceable information processing, and structured recommendations.
+
+### Technologies Used
+
+- **Python 3.12.4:** Core development and business logic.
+- **LangGraph:** Multi-agent orchestration, shared state management, and conditional routing.
+- **LlamaIndex:** Semantic retrieval of relevant logistics policy documents.
+- **Hugging Face Embeddings:** Vector representations for similarity-based document retrieval.
+- **JSON:** Local shipment data storage.
+- **TypedDict:** Definition of structured workflow state.
+- **Visual Studio Code and PowerShell:** Development, execution, and testing.
+- **Git and GitHub:** Version control and project documentation.
+
+### System Architecture
+
+The system coordinates five specialized agents, each responsible for a distinct operational function.
+
+**1. Shipment Agent**
+
+Retrieves shipment information from the local dataset developed in Exercise 010.
+
+The agent accepts a shipment identifier, locates the corresponding record, and updates the shared workflow state.
+
+If the shipment does not exist, the system returns `not_found` and terminates the workflow without executing unnecessary downstream operations.
+
+**2. Shipment Validation Agent**
+
+Verifies that the retrieved shipment contains the mandatory information required for operational analysis.
+
+The validation process checks fields including shipment status, issue type, priority, description, and delivery confirmation.
+
+If information is missing, the system records validation errors and returns `validation_failed`.
+
+This prevents incomplete records from reaching later processing stages.
+
+**3. Policy Agent**
+
+Uses the semantic retrieval capabilities developed in Exercise 009 to identify logistics policies relevant to the shipment exception.
+
+The agent integrates LlamaIndex and Hugging Face embeddings to retrieve policy documents using vector similarity.
+
+Each retrieved result includes its filename, similarity score, and relevant text excerpt.
+
+These results provide supporting references for subsequent operational analysis.
+
+**4. Exception Analysis Agent**
+
+Evaluates the validated shipment using its operational characteristics and the retrieved policy references.
+
+The agent produces a structured assessment containing the shipment identifier, issue type, priority, operational concern, suggested action, supporting policies, and human review requirement.
+
+For the tested damaged-packaging shipment, the system recommended inspection, documentation of visible damage, and operational review before release.
+
+**5. Operational Decision Agent**
+
+Consolidates the shipment information and exception analysis into a structured operational recommendation.
+
+The resulting decision includes the recommended action, supporting policy references, approval status, and execution authorization.
+
+The system distinguishes between preparing a recommendation and authorizing an operational action.
+
+For the tested shipment, human review remained mandatory and execution authorization was set to `False`.
+
+### Multi-Agent Workflow
+
+LangGraph coordinates the agents through a shared state and conditional execution paths.
+
+The successful processing sequence is:
+
+```text
+START
+  |
+  v
+Shipment Agent
+  |
+  v
+Shipment Validation Agent
+  |
+  v
+Policy Agent
+  |
+  v
+Exception Analysis Agent
+  |
+  v
+Operational Decision Agent
+  |
+  v
+Decision Prepared
+  |
+  v
+Human Review Required
+  |
+  v
+END
+```
+
+The workflow uses conditional routing to prevent invalid or nonexistent shipments from progressing to later stages.
+
+This approach reduces unnecessary processing and provides more predictable execution than unrestricted agent-to-agent decision-making.
+
+### Shared State Management
+
+The agents communicate through a structured shared state rather than relying on unrestricted natural-language exchanges.
+
+The state contains:
+
+- `shipment_id` — Shipment identifier.
+- `status` — Current workflow status.
+- `errors` — Processing and validation errors.
+- `shipment` — Retrieved shipment information.
+- `policies` — Relevant logistics policy references.
+- `exception_analysis` — Structured operational assessment.
+- `decision` — Prepared operational recommendation.
+- `agent_history` — Execution history of the participating agents.
+
+This shared-state architecture allows each agent to access the information required for its task while preserving a traceable record of processing stages.
+
+### Implementation and Testing
+
+The system was implemented in:
+
+`exercises/logistics_multi_agent_system.py`
+
+Automated integration tests were implemented in:
+
+`exercises/exercise_012_tests.py`
+
+Three principal scenarios were verified.
+
+**Test 1 — Valid Shipment Workflow**
+
+Shipment `SHP-1045`, belonging to Caribbean Retail Group, was used to test the complete multi-agent processing sequence.
+
+The shipment involved visible packaging damage, high operational priority, and unconfirmed delivery.
+
+The system successfully retrieved the shipment, validated its information, retrieved three relevant policies, analyzed the exception, and prepared an operational recommendation.
+
+**Result:** `decision_prepared` — PASS.
+
+**Test 2 — Missing Shipment Workflow**
+
+Shipment `SHP-9999` was used to verify how the workflow responds to a nonexistent shipment identifier.
+
+The system returned `not_found` and terminated before executing the remaining agents.
+
+**Result:** `not_found` — PASS.
+
+**Test 3 — Incomplete Shipment Validation**
+
+A deliberately incomplete shipment record was created to verify mandatory-field validation.
+
+The validation agent detected missing information and returned the corresponding errors without preparing an operational decision.
+
+This test verified the validation component independently rather than testing the complete workflow route.
+
+**Result:** `validation_failed` — PASS.
+
+### Automated Test Results
+
+The test suite was executed using:
+
+```powershell
+python exercises/exercise_012_tests.py
+```
+
+Verified output:
+
+```text
+EXERCISE 012 — AUTOMATED INTEGRATION TESTS
+-------------------------------------------------------
+PASS: Valid multi-agent workflow
+PASS: Missing shipment workflow
+PASS: Incomplete shipment validation
+-------------------------------------------------------
+ALL EXERCISE 012 TESTS PASSED
+```
+
+**Final Test Result: 3/3 Passed.**
+
+The tests confirmed successful coordination of the complete workflow for a valid shipment, early termination for a nonexistent shipment, and rejection of incomplete shipment data.
+
+The valid-workflow test also verified the expected agent history and human-review controls.
+
+### Performance Considerations and Limitations
+
+The system was developed within the limitations of the available local development environment.
+
+Rather than pursuing unrestricted autonomous reasoning, the implementation emphasizes deterministic business logic, structured state transitions, reusable components, and semantic retrieval.
+
+This design helps reduce dependence on the tool-calling and reasoning capabilities of small local language models.
+
+**Observed strengths:**
+
+- Successful coordination of five specialized agents.
+- Reuse of previously developed shipment and policy retrieval components.
+- Conditional routing for invalid shipment scenarios.
+- Structured operational recommendations.
+- Traceable agent execution history.
+- Explicit human-review and execution-authorization controls.
+- Three successful automated integration tests.
+
+**Current limitations:**
+
+- Embedding-model initialization occurred repeatedly during some development tests, indicating an opportunity for resource reuse and performance optimization.
+- Semantic retrieval relies on a small local policy knowledge base.
+- The available shipment dataset and automated test scenarios are limited.
+- Similarity scores indicate document relevance but do not independently establish operational applicability.
+- The system does not execute real-world transportation, carrier, or shipment-release actions.
+- The automated tests do not provide exhaustive coverage of every possible operational failure.
+
+These limitations are documented to distinguish the validated prototype from a production-ready freight operations platform.
+
+### Key Learning Outcomes
+
+Exercise 012 demonstrated how multiple specialized agents can be integrated into a single operational workflow.
+
+The exercise reinforced several important engineering concepts:
+
+1. **Separation of responsibilities:** Each agent performs a clearly defined function.
+2. **Workflow orchestration:** LangGraph controls the order and conditions under which agents execute.
+3. **State management:** Structured information can be shared between agents without relying on unrestricted conversational exchanges.
+4. **Semantic retrieval:** Relevant logistics documentation can support operational analysis.
+5. **Error handling:** Invalid or nonexistent shipments can be stopped before further processing.
+6. **Human oversight:** Recommendations can be generated without automatically authorizing operational actions.
+7. **Integration testing:** Automated tests can verify important workflow behaviors and prevent regressions.
+
+The project also demonstrated that a multi-agent architecture does not require every component to be powered by a separate language model.
+
+Specialized Python functions and retrieval components can operate as agents within a coordinated framework, providing greater predictability for operational applications.
+
+### Outcome
+
+**Completed and validated a prototype Multi-Agent Freight Operations System integrating five specialized agents through LangGraph.**
+
+The system successfully coordinated shipment retrieval, validation, semantic policy retrieval, exception analysis, and operational decision preparation.
+
+All three automated integration tests passed.
+
+The exercise represents an important progression from individual AI-assisted logistics tools toward a coordinated, multi-agent operational architecture.
+
+It also establishes a practical foundation for future applications involving digital freight forwarding, third-party logistics, shipment exception management, and AI-assisted operational decision support.
+
+**Source Code:** `exercises/logistics_multi_agent_system.py`  
+**Automated Tests:** `exercises/exercise_012_tests.py`  
+**Technical Report:** `notes/exercise_012.md`
 
 ## Long-Term Vision
 My goal is to progressively develop AI-powered solutions for real-world operational challenges.
