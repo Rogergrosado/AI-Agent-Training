@@ -55,7 +55,9 @@ AI-Agent-Training/
 │   ├── logistics_rag_llm_agent.py
 │   ├── logistics_langgraph_workflow.py
 │   ├── logistics_multi_agent_system.py
-│   └── exercise_012_tests.py
+│   ├── exercise_012_tests.py
+│   ├── shipment_exception_routing.py
+│   └── exercise_013_tests.py
 ├── notes/
 │   ├── exercise_001.md
 │   ├── exercise_002.md
@@ -68,7 +70,8 @@ AI-Agent-Training/
 │   ├── exercise_009.md
 │   ├── exercise_010.md
 │   ├── exercise_011.md
-│   └── exercise_012.md
+│   ├── exercise_012.md
+│   └── exercise_013.md
 ├── results/
 │   └── exercise_008/          # Local generated test outputs
 ├── archive/                   # Local experimental history
@@ -94,6 +97,7 @@ AI-Agent-Training/
 | 010 | Logistics Tool-Using RAG Agent - Shipment Retrieval, Semantic Policy Search, and Validated Reporting | Completed Prototype - LLM Tool-Calling Limitations Documented |
 | 011 | Reliable Logistics Workflows with LangGraph — State Management, Conditional Routing, Semantic Policy Retrieval, and Human-Reviewed Decision Support | Completed |
 | 012 | Multi-Agent Freight Operations System — Five Specialized Agents, LangGraph Orchestration, Semantic Policy Retrieval, Exception Analysis, Human Review Controls, and Automated Integration Testing | Completed — 3/3 Tests Passed |
+| 013 | Shipment Exception Routing with LangGraph | Completed |
 
 
 ## Exercise 001 — Running My First Local LLM
@@ -1036,6 +1040,72 @@ It also establishes a practical foundation for future applications involving dig
 **Source Code:** `exercises/logistics_multi_agent_system.py`  
 **Automated Tests:** `exercises/exercise_012_tests.py`  
 **Technical Report:** `notes/exercise_012.md`
+
+
+## Exercise 013 — Shipment Exception Routing with LangGraph
+
+**Course:** Hugging Face AI Agents Course — Unit 2: LangGraph  
+**Date:** November 3, 2026  
+**Status:** Completed
+
+### Objective
+
+Design and implement a deterministic logistics workflow using LangGraph to classify shipment exceptions, route operational cases, and update shared shipment information.
+
+### What I Built
+
+- A stateful shipment exception management workflow.
+- A `ShipmentState` structure using Python's `TypedDict`.
+- An evaluation function that determines exception priority.
+- Conditional routing for five shipment exception categories.
+- Dedicated handling functions that assign departments, recommend actions, and determine human review requirements.
+- An automated test suite validating operational decisions.
+
+### Technologies Used
+
+- Python 3.12
+- LangGraph 1.2.19
+- TypedDict
+- Python assertions
+- Visual Studio Code
+- Git and GitHub
+
+### Testing Results
+
+Successfully validated five shipment exception scenarios:
+
+1. Delay
+2. Documentation
+3. Damage
+4. None
+5. Unknown
+
+Each scenario was evaluated against four expected outputs:
+
+- Priority
+- Assigned department
+- Recommended action
+- Human review requirement
+
+**Final Result: 5/5 scenarios passed, with 20/20 assertions successful.**
+
+### Key Learning Outcomes
+
+- Designed explicit workflow transitions using LangGraph.
+- Implemented conditional routing based on shipment exceptions.
+- Managed shared state across independent workflow nodes.
+- Separated business logic from workflow orchestration.
+- Introduced automated regression testing for logistics decisions.
+- Improved Python module organization using the `if __name__ == "__main__":` guard.
+
+### Source Code
+
+- [Shipment Exception Routing](exercises/shipment_exception_routing.py)
+- [Automated Workflow Tests](exercises/exercise_013_tests.py)
+
+### Technical Documentation
+
+- [Exercise 013 Documentation](notes/exercise_013.md)
 
 ## Long-Term Vision
 My goal is to progressively develop AI-powered solutions for real-world operational challenges.
