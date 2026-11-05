@@ -1,0 +1,42 @@
+[
+    {
+        "shipment_id": "SHP-001",
+        "origin": "Miami, USA",
+        "destination": "San Juan, Puerto Rico",
+        "transport_mode": "ocean",
+        "status": "in_transit",
+        "eta": "2026-11-10",
+        "exception": null,
+        "priority": "low"
+    },
+    {
+        "shipment_id": "SHP-002",
+        "origin": "Shanghai, China",
+        "destination": "San Juan, Puerto Rico",
+        "transport_mode": "ocean",
+        "status": "delayed",
+        "eta": "2026-11-15",
+        "exception": "Port congestion causing shipment delays",
+        "priority": "medium"
+    },
+    {
+        "shipment_id": "SHP-003",
+        "origin": "Cartagena, Colombia",
+        "destination": "San Juan, Puerto Rico",
+        "transport_mode": "ocean",
+        "status": "customs_hold",
+        "eta": "2026-11-12",
+        "exception": "Shipment awaiting customs documentation review",
+        "priority": "high"
+    },
+    {
+        "shipment_id": "SHP-004",
+        "origin": "Houston, USA",
+        "destination": "Ponce, Puerto Rico",
+        "transport_mode": "air",
+        "status": "delayed",
+        "eta": "2026-11-06",
+        "exception": "Flight disruption affecting time-sensitive cargo",
+        "priority": "critical"
+    }
+]

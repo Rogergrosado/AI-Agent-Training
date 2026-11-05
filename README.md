@@ -57,7 +57,23 @@ AI-Agent-Training/
 │   ├── logistics_multi_agent_system.py
 │   ├── exercise_012_tests.py
 │   ├── shipment_exception_routing.py
-│   └── exercise_013_tests.py
+│   ├── exercise_013_tests.py
+│   └── logistics_research_agent.py
+├── projects/
+│   └── logistics_research/
+│       ├── data/
+│       │   └── shipments.json
+│       ├── tests/
+│       │   ├── test_shipment_analysis.py
+│       │   ├── test_research_tools.py
+│       │   ├── test_external_research.py
+│       │   ├── test_research_workflow.py
+│       │   └── test_evidence_quality.py
+│       ├── shipment_analysis.py
+│       ├── research_tools.py
+│       ├── external_research.py
+│       ├── research_workflow.py
+│       └── evidence_quality.py
 ├── notes/
 │   ├── exercise_001.md
 │   ├── exercise_002.md
@@ -71,7 +87,8 @@ AI-Agent-Training/
 │   ├── exercise_010.md
 │   ├── exercise_011.md
 │   ├── exercise_012.md
-│   └── exercise_013.md
+│   ├── exercise_013.md
+│   └── exercise_014.md
 ├── results/
 │   └── exercise_008/          # Local generated test outputs
 ├── archive/                   # Local experimental history
@@ -98,6 +115,7 @@ AI-Agent-Training/
 | 011 | Reliable Logistics Workflows with LangGraph — State Management, Conditional Routing, Semantic Policy Retrieval, and Human-Reviewed Decision Support | Completed |
 | 012 | Multi-Agent Freight Operations System — Five Specialized Agents, LangGraph Orchestration, Semantic Policy Retrieval, Exception Analysis, Human Review Controls, and Automated Integration Testing | Completed — 3/3 Tests Passed |
 | 013 | Shipment Exception Routing with LangGraph | Completed |
+| 014 | Logistics Research & Decision Support Agent — Shipment Analysis, External Research, Evidence Quality Assessment, and Automated Testing | Completed — 36/36 Tests Passed |
 
 
 ## Exercise 001 — Running My First Local LLM
@@ -1106,6 +1124,76 @@ Each scenario was evaluated against four expected outputs:
 ### Technical Documentation
 
 - [Exercise 013 Documentation](notes/exercise_013.md)
+
+## Exercise 014 — Logistics Research & Decision Support Agent
+
+**Date:** November 4, 2026
+
+### Objective
+
+Develop a logistics research and decision-support system that combines structured shipment data, deterministic business rules, external research, and evidence-quality assessment to support operational decisions.
+
+The system is designed to distinguish verified shipment information from external research metadata, identify uncertainty, and provide traceable recommendations without inventing supporting evidence.
+
+### What I Built
+
+- A structured dataset containing four fictional shipment scenarios: normal, delayed, customs hold, and critical priority.
+- A shipment analysis module that classifies operational conditions and generates recommended actions.
+- A research query generator that converts shipment exceptions into targeted logistics research questions.
+- An external research component that retrieves publication metadata, including titles, URLs, publishers, and publication dates when available.
+- An evidence-quality evaluator that assesses source relevance, traceability, and verification limitations.
+- An integrated research workflow that connects shipment analysis, external research, and evidence assessment.
+- Automated unit and integration tests covering successful operations, invalid inputs, missing data, empty results, and external research failures.
+
+### Technologies Used
+
+- Python 3.12
+- JSON
+- Python `unittest`
+- `unittest.mock`
+- External research API integration
+- HTTP error handling
+- Visual Studio Code
+- Git and GitHub
+
+### Testing Results
+
+Successfully executed **36 automated tests**, covering shipment classification, research query generation, external source retrieval, evidence assessment, and integrated workflow behavior.
+
+**Final Result: 36/36 tests passed.**
+
+The workflow was also executed using representative shipment scenarios.
+
+- **Normal shipment:** Research was correctly identified as unnecessary.
+- **Delayed shipment:** External research was requested to investigate possible operational causes.
+- **Research failure:** The system preserved its shipment classification and reported the external error without inventing evidence.
+
+An HTTP 429 response demonstrated the importance of handling external service limitations.
+
+### Key Learning Outcomes
+
+- Designed a modular logistics research and decision-support architecture.
+- Applied deterministic business rules to operational shipment classification.
+- Integrated external research into a structured Python workflow.
+- Distinguished source metadata from verified publication content.
+- Evaluated evidence relevance and traceability while documenting verification limitations.
+- Implemented resilient error handling for external research failures.
+- Used mocked responses to test external dependencies without relying on live API availability.
+- Expanded automated testing to 36 successful tests.
+- Reinforced the importance of reproducibility, transparent uncertainty, and evidence-based operational recommendations.
+
+### Source Code
+
+- [Logistics Research Agent](exercises/logistics_research_agent.py)
+- [Shipment Analysis](projects/logistics_research/shipment_analysis.py)
+- [Research Tools](projects/logistics_research/research_tools.py)
+- [External Research](projects/logistics_research/external_research.py)
+- [Research Workflow](projects/logistics_research/research_workflow.py)
+- [Evidence Quality Assessment](projects/logistics_research/evidence_quality.py)
+
+### Technical Documentation
+
+- [Exercise 014 Documentation](notes/exercise_014.md)
 
 ## Long-Term Vision
 My goal is to progressively develop AI-powered solutions for real-world operational challenges.
